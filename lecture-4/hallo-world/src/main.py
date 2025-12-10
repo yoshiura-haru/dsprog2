@@ -5,9 +5,18 @@ def main(page: ft.Page):
     # カウンター表示用テキスト
     counter = ft.Text("0", size=50, data=0)
 
-    # ボタンが押下された時に呼び出される関数
+    #
+    hoge = ft.Text("Hoge", size=30)
+
+    # ボタンが押下された時に呼び出される関数(++)
     def increment_click(e):
         counter.data += 1
+        counter.value = str(counter.data)
+        counter.update()
+
+    # ボタンが押下された時に呼び出される関数(--)
+    def decrement_click(e):
+        counter.data -= 1
         counter.value = str(counter.data)
         counter.update()
 
@@ -18,11 +27,12 @@ def main(page: ft.Page):
     page.add(
         ft.SafeArea(
             ft.Container(
-                counter,
+                content=ft.Row(controls=[counter, hoge]),
                 alignment=ft.alignment.center,
             ),
             expand=True,
-        )
+        ),
+        ft.FloatingActionButton(icon=ft.Icons.REMOVE, on_click=decrement_click)
     )
 
 
