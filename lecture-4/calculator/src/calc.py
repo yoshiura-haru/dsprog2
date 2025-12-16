@@ -1,4 +1,5 @@
 import flet as ft
+import math
 
 class CalcButton(ft.ElevatedButton):
         def __init__(self, text, button_clicked,expand=1):
@@ -58,6 +59,7 @@ class CalculatorApp(ft.Container):
                         DigitButton(text="8", button_clicked=self.button_clicked),
                         DigitButton(text="9", button_clicked=self.button_clicked),
                         ActionButton(text="*", button_clicked=self.button_clicked),
+                        ActionButton(text="^", button_clicked=self.button_clicked),
                     ]
                 ),
                 ft.Row(
@@ -66,6 +68,7 @@ class CalculatorApp(ft.Container):
                         DigitButton(text="5", button_clicked=self.button_clicked),
                         DigitButton(text="6", button_clicked=self.button_clicked),
                         ActionButton(text="-", button_clicked=self.button_clicked),
+                        ActionButton(text="√", button_clicked=self.button_clicked),
                     ]
                 ),
                 ft.Row(
@@ -74,6 +77,7 @@ class CalculatorApp(ft.Container):
                         DigitButton(text="2", button_clicked=self.button_clicked),
                         DigitButton(text="3", button_clicked=self.button_clicked),
                         ActionButton(text="+", button_clicked=self.button_clicked),
+                        ActionButton(text="log2", button_clicked=self.button_clicked),
                     ]
                 ),
                 ft.Row(
@@ -83,6 +87,9 @@ class CalculatorApp(ft.Container):
                         ),
                         DigitButton(text=".", button_clicked=self.button_clicked),
                         ActionButton(text="=", button_clicked=self.button_clicked),
+                        ActionButton(text="sin", button_clicked=self.button_clicked),
+                        ActionButton(text="cos", button_clicked=self.button_clicked),
+                        ActionButton(text="tan", button_clicked=self.button_clicked),
                     ]
                 ),
             ]
@@ -102,7 +109,7 @@ class CalculatorApp(ft.Container):
                     else:
                         self.result.value = self.result.value + data
 
-            elif data in ("+", "-", "*", "/"):
+            elif data in ("+", "-", "*", "/","^","√","log2","sin","cos","tan"):
                     self.result.value = self.calculate(
                         self.operand1, float(self.result.value), self.operator
                     )
@@ -156,6 +163,31 @@ class CalculatorApp(ft.Container):
                 return "Error"
             else:
                 return self.format_number(operand1 / operand2)
+        
+        elif operator == "^":
+            return self.format_number(operand1 ** operand2)
+        
+
+        elif operator == "√":
+            if operand2 < 0:
+                return "Error"
+            else:
+                return self.format_number(operand2 ** 0.5)
+            
+        elif operator == "log2":
+            if operand2 <= 0:
+                return "Error"
+            else:
+                return self.format_number(math.log2(operand2))
+            
+        elif operator == "sin":
+            return self.format_number(math.sin(math.radians(operand2)))
+        
+        elif operator == "cos":
+            return self.format_number(math.cos(math.radians(operand2)))
+        
+        elif operator == "tan":
+            return self.format_number(math.tan(math.radians(operand2)))
 
     def reset(self):
         self.operator = "+"
